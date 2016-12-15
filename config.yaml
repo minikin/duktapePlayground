@@ -1,0 +1,102 @@
+# Read more : https://github.com/svaarala/duktape/blob/master/doc/low-memory.rst
+# and http://wiki.duktape.org/ConfigOptions.html
+
+################################################
+# Platform and portability options
+################################################
+
+DUK_USE_BRANCH_HINTS: true
+DUK_USE_32BIT_PTRS: true # Pointers are 32-bit integer compatible.
+DUK_USE_64BIT_OPS: true # Use 64-bit integer operations. On some platforms 64-bit types may be available but 64-bit operations don't work correctly e.g. in integer/float casts.
+#DUK_USE_BYTEORDER: 0 # Byte order for platform: 1 = little endian, 2 = mixed (arm hybrid) endian, 3 = big endian. ARM mixed endian means integers are little endian but IEEE doubles have mixed endianness: big endian bytes 12345678 are ordered in memory as 43218765.
+DUK_USE_COMPILER_RECLIMIT: 2500 # Ecmascript compiler native call stack recursion limit. Default: 2500
+DUK_USE_FATAL_HANDLER: false # Provide a custom default fatal error handler to replace the built-in one (which causes an intentional segfault and forever loops)
+DUK_USE_FLEX_C99: true # Use C99 flexible array member for defining variable size structures.
+DUK_USE_GET_RANDOM_DOUBLE: false #  The default random number generator has a very low footprint but is not suitable for serious statistics algorithms or cryptography. Overriding the random number generator may thus be useful in some environments.
+DUK_USE_JSON_DEC_RECLIMIT: 100 # Maximum native stack recursion for JSON decoding. Default: 1000
+DUK_USE_JSON_ENC_RECLIMIT: 100 # Maximum native stack recursion for JSON encoding. Default: 1000
+DUK_USE_MARK_AND_SWEEP_RECLIMIT: 128 # Mark-and-sweep C recursion depth for marking phase; if reached, mark object as a TEMPROOT and use multi-pass marking (slower but same result).Default: 256
+DUK_USE_NATIVE_CALL_RECLIMIT: 100 # Maximum duk_handle_call() / duk_handle_safe_call() C recursion limit. Default: 1000
+DUK_USE_REGEXP_COMPILER_RECLIMIT: 1000 # RegExp compiler native call stack recursion limit. Default: 10000
+DUK_USE_REGEXP_EXECUTOR_RECLIMIT: 100 # RegExp executor native call stack recursion limit. Default: 10000
+DUK_USE_UNALIGNED_ACCESSES_POSSIBLE: false # Target architecture unaligned memory accesses (e.g. 32-bit integer access from an arbitrary address).
+DUK_USE_UNION_INITIALIZERS: true # Compiler supports C99-style designated union initializers, e.g. { .foo = 123 }. When disabled, Duktape sometimes needs to resort to less efficient struct initializers for portability.
+
+################################################
+# Memory management options
+################################################
+
+DUK_USE_ZERO_BUFFER_DATA: true # When disabled, buffers are not zeroed and may contain arbitrary data. Disabling this option only makes sense for performance reasons. Default: True
+
+################################################
+# Low memory options
+################################################
+
+DUK_USE_BUFLEN16: false # Use a 16-bit buffer length field (for low memory environments). Default: False
+DUK_USE_EXEC_PREFER_SIZE: false # Prefer size over performance in bytecode executor.
+DUK_USE_LIGHTFUNC_BUILTINS: true # Force built-in functions to be lightweight functions. This reduces memory footprint by around 14 kB at the cost of some non-compliant behavior.
+DUK_USE_ROM_PTRCOMP_FIRST: 63488 # You may need to lower this value to support more pointers if there are a lot of custom ROM strings/objects. Default: 63488
+DUK_USE_ROM_STRINGS: false # This reduces startup RAM usage considerably at the cost of a larger code footprint and slower string interning. Default: False
+
+################################################
+# Ecmascript Edition 5 options
+################################################
+
+DUK_USE_COMMONJS_MODULES: false # When disabled, the global require() function is present but throws an error.
+DUK_USE_DATE_BUILTIN: false # Provide a Date built-in.
+DUK_USE_DOUBLE_LINKED_HEAP: true # Use a double-linked duk_heaphdr structure. Required when reference counting is enabled. Default: True
+DUK_USE_ES6: false # Enable ES6 functionality not covered by other specific config options.
+DUK_USE_ES6_OBJECT_PROTO_PROPERTY: false # Provide the non-standard (ES6) Object.prototype.__proto__ property.
+DUK_USE_ES6_OBJECT_SETPROTOTYPEOF: false # Provide the non-standard (ES6) Object.setPrototypeOf method.
+DUK_USE_ES6_PROXY: false # Provide the non-standard (ES6) Proxy object.
+DUK_USE_ES7_EXP_OPERATOR: false # Support the ES7 exponentiation operator (** and **=). This is optional because the operator pulls in pow() which may have a significant footprint impact on bare metal platforms.
+DUK_USE_ESBC_MAX_BYTES: 2147418112 # Maximum byte count for compiled function bytecode. Default: 2147418112
+DUK_USE_ESBC_MAX_LINENUMBER: 2147418112 # Maximum line number for compiled function bytecode. Default: 2147418112
+DUK_USE_FUNC_FILENAME_PROPERTY: false # Add a non-standard ".fileName" property to function instances. Disabling reduces footprint.
+DUK_USE_FUNC_NAME_PROPERTY: true # Add a "name" property to function instances. This is part of Ecmascript requirements, but low memory devices can sometimes opt to not include the .name to reduce footprint.
+DUK_USE_GLOBAL_BUILTIN: true # Provide miscellaneous global built-ins like encodeURIComponent(), escape(), Infinity, etc
+DUK_USE_JC: true # Enable support for the JC custom JSON format.
+DUK_USE_JSON_BUILTIN: true # Provide a JSON built-in.
+DUK_USE_JSON_SUPPORT: true # Enable JSON functionality, affects both Ecmascript and C APIs. Note that disabling DUK_USE_JSON_BUILTIN still leaves the C API intact and pulls in the JSON encoding/decoding functionality; disable this option to remove that too.
+DUK_USE_JX: false # Enable support for the JX custom JSON format. Default: True
+DUK_USE_SECTION_B: false # Enable optional features in Ecmascript specification Annex B: http://www.ecma-international.org/ecma-262/5.1/#sec-B. Default: True
+DUK_USE_TRACEBACKS: false # Disabling this option reduces footprint and makes error handling a bit faster, at the cost of less informative Ecmascript errors. Default: True
+DUK_USE_TRACEBACK_DEPTH: 10 # When tracebacks are disabled this option affects .fileName and .lineNumber blaming. Error augmentation code won't look deeper than this value to find a function to blame for error .fileName / .lineNumber.
+DUK_USE_VERBOSE_ERRORS: false # When disabled, reduces footprint at the cost of much less informative Ecmascript errors. Default: True
+DUK_USE_VERBOSE_EXECUTOR_ERRORS: false # When disabled, reduces footprint slightly at the cost of more obscure error messages. Default: True
+
+################################################
+# Ecmascript Edition 6 (ES6, ES2015) options
+################################################
+
+DUK_USE_BUFFEROBJECT_SUPPORT: false # Enable support for Khronos/ES6 typed arrays and Node.js Buffer objects.
+DUK_USE_ES6_REGEXP_SYNTAX: false # This option is recommended because a lot of existing code depends on literal regexp braces, and other non-ES5 constructs. Default: True
+DUK_USE_ES6_UNICODE_ESCAPE: false # Enable support for ES6 Unicode escape syntax ("u{12345}") in source code and RegExps.
+
+################################################
+# Debugger options  & Debug options
+################################################
+
+DUK_USE_DEBUGGER_THROW_NOTIFY: true # Send a Throw notify when an error is about to be thrown. The Throw notify also indicates if an error is fatal (most likely not caught) which is very useful in debugging.
+DUK_USE_DEBUG_BUFSIZE: 1024 # Debug code uses a static buffer as a formatting temporary to avoid side effects in debug prints. The static buffer is large by default, which may be an issue in constrained environments. Default: 65536.
+
+########################
+# Suggested options
+########################
+
+DUK_USE_UNION_INITIALIZERS: false # When disabled, Duktape sometimes needs to resort to less efficient struct initializers for portability.
+DUK_USE_AUGMENT_ERRORS: false
+DUK_USE_PC2LINE: false
+DUK_USE_LEXER_SLIDING_WINDOW: false
+DUK_USE_JSON_STRINGIFY_FASTPATH: false
+DUK_USE_JSON_QUOTESTRING_FASTPATH: false
+DUK_USE_JSON_DECSTRING_FASTPATH: false
+DUK_USE_JSON_DECNUMBER_FASTPATH: false
+DUK_USE_JSON_EATWHITE_FASTPATH: false
+DUK_USE_REGEXP_SUPPORT: true # Try to disiable. Could work for your case.
+DUK_USE_BYTECODE_DUMP_SUPPORT: false
+
+########################
+# Aggressive options
+# The following may be needed for very low memory environments (e.g. 96-128kB system RAM):
+########################
