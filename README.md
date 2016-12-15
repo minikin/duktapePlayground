@@ -2,7 +2,7 @@
 
 #### Clone repo to your computer or device
 
-#### Add configuration _(optimize it for your needs)_ file if you need it to the duktape folder.
+#### Add configuration _(optimize it for your needs)_  `config.yaml` file if you need it to the duktape folder.
 
 #### In terminal navigate to duktape folder and run command:
 
@@ -22,30 +22,7 @@ python tools/configure.py \
 
 `make -f Makefile.hello`
 
-It will produce some warnings due I disable a few options in `config.yaml`:
-
-`
-gcc -o hello  -Os -pedantic -std=c99 -Wall -fstrict-aliasing -fomit-frame-pointer -I./src   -UK_USE_FATAL_HANDLER src/duktape.c examples/hello/hello.c -lm
-src/duktape.c:26138:21: warning: unused function 'duk__parse_string' [-Wunused-function]
-DUK_LOCAL duk_ret_t duk__parse_string(duk_context *ctx, const char *str) {
-                    ^
-src/duktape.c:26769:21: warning: unused function 'duk__to_string_helper' [-Wunused-function]
-DUK_LOCAL duk_ret_t duk__to_string_helper(duk_context *ctx, duk_small_uint_t flags) {
-                    ^
-src/duktape.c:26825:21: warning: unused function 'duk__get_part_helper' [-Wunused-function]
-DUK_LOCAL duk_ret_t duk__get_part_helper(duk_context *ctx, duk_small_uint_t flags_and_idx) {
-                    ^
-src/duktape.c:26857:21: warning: unused function 'duk__set_part_helper' [-Wunused-function]
-DUK_LOCAL duk_ret_t duk__set_part_helper(duk_context *ctx, duk_small_uint_t flags_and_maxnargs) {
-                    ^
-src/duktape.c:26982:16: warning: unused function 'duk__set_parts_from_args' [-Wunused-function]
-DUK_LOCAL void duk__set_parts_from_args(duk_context *ctx, duk_double_t *dparts, duk_idx_t nargs) {
-               ^
-src/duktape.c:27157:28: warning: unused function 'duk__date_get_indirect_magic' [-Wunused-function]
-DUK_LOCAL duk_small_uint_t duk__date_get_indirect_magic(duk_context *ctx) {
-                           ^
-6 warnings generated.
-`
+_It will produce some warnings due I disable  few options in `config.yaml`._
 
 #### Run you program:
 

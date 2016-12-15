@@ -17,7 +17,7 @@ DUK_USE_JSON_DEC_RECLIMIT: 100 # Maximum native stack recursion for JSON decodin
 DUK_USE_JSON_ENC_RECLIMIT: 100 # Maximum native stack recursion for JSON encoding. Default: 1000
 DUK_USE_MARK_AND_SWEEP_RECLIMIT: 128 # Mark-and-sweep C recursion depth for marking phase; if reached, mark object as a TEMPROOT and use multi-pass marking (slower but same result).Default: 256
 DUK_USE_NATIVE_CALL_RECLIMIT: 100 # Maximum duk_handle_call() / duk_handle_safe_call() C recursion limit. Default: 1000
-DUK_USE_REGEXP_COMPILER_RECLIMIT: 1000 # RegExp compiler native call stack recursion limit. Default: 10000
+DUK_USE_REGEXP_COMPILER_RECLIMIT: 10000 # RegExp compiler native call stack recursion limit. Default: 10000
 DUK_USE_REGEXP_EXECUTOR_RECLIMIT: 100 # RegExp executor native call stack recursion limit. Default: 10000
 DUK_USE_UNALIGNED_ACCESSES_POSSIBLE: false # Target architecture unaligned memory accesses (e.g. 32-bit integer access from an arbitrary address).
 DUK_USE_UNION_INITIALIZERS: true # Compiler supports C99-style designated union initializers, e.g. { .foo = 123 }. When disabled, Duktape sometimes needs to resort to less efficient struct initializers for portability.
@@ -78,7 +78,7 @@ DUK_USE_ES6_UNICODE_ESCAPE: false # Enable support for ES6 Unicode escape syntax
 ################################################
 
 DUK_USE_DEBUGGER_THROW_NOTIFY: true # Send a Throw notify when an error is about to be thrown. The Throw notify also indicates if an error is fatal (most likely not caught) which is very useful in debugging.
-DUK_USE_DEBUG_BUFSIZE: 1024 # Debug code uses a static buffer as a formatting temporary to avoid side effects in debug prints. The static buffer is large by default, which may be an issue in constrained environments. Default: 65536.
+DUK_USE_DEBUG_BUFSIZE: 2048 # Debug code uses a static buffer as a formatting temporary to avoid side effects in debug prints. The static buffer is large by default, which may be an issue in constrained environments. Default: 65536.
 
 ########################
 # Suggested options
@@ -100,3 +100,16 @@ DUK_USE_BYTECODE_DUMP_SUPPORT: false
 # Aggressive options
 # The following may be needed for very low memory environments (e.g. 96-128kB system RAM):
 ########################
+
+DUK_USE_LIGHTFUNC_BUILTINS: true # Consider using lightweight functions for your Duktape/C bindings and to force Duktape built-ins to be lightweight functions
+# If code footprint is a significant issue, disabling reference counting reduces code footprint by several kilobytes at the cost of more RAM fluctuation:
+DUK_USE_REFERENCE_COUNTING: false
+DUK_USE_DOUBLE_LINKED_LIST: false
+# Enable other 16-bit fields to reduce header size; these are typically used together (all or none):
+# I can't build with these options !
+# DUK_USE_REFCOUNT16: true
+# DUK_USE_STRHASH16: true
+# DUK_USE_STRLEN16: true
+# DUK_USE_BUFLEN16: true
+# DUK_USE_OBJSIZES16: true
+# DUK_USE_HSTRING_CLENL false
