@@ -24,7 +24,7 @@ python tools/configure.py \
 
 _It will produce some warnings due I disable  few options in `config.yaml`._
 
-#### Run you program:
+#### Run your program:
 
 `./hello`
 
